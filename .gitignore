@@ -1,0 +1,10 @@
+venv/
+__pycache__/
+plugins/
+logs/
+backend/__pycache__/auth.cpython-311.pyc
+data/silver_taxi_data/.part-00000-ea92401d-932e-4ad6-a7d7-860b62163644-c000.snappy.parquet.crc
+data/silver_taxi_data/_SUCCESS
+data/silver_taxi_data/._SUCCESS.crc
+data/silver_taxi_data/part-00000-ea92401d-932e-4ad6-a7d7-860b62163644-c000.snappy.parquet
+.env

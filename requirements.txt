@@ -1,0 +1,15 @@
+# Airflow DB
+psycopg2-binary
+Spark
+pandas
+numpy
+scikit-learn
+joblib
+pyspark==3.5.1
+apache-airflow
+pyarrow
+sqlalchemy
+fastapi
+uvicorn
+seaborn
+matplotlib
