@@ -42,3 +42,10 @@ class ETATrip(Base):
     congestion_surcharge = Column(Float)
     Airport_fee = Column(Float)
     cbd_congestion_fee = Column(Float)
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(50), unique=True, nullable=False)
+    hashed_password = Column(String(128), nullable=False)

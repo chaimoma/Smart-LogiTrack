@@ -10,3 +10,6 @@ class TripInput(BaseModel):
     congestion_surcharge: float
     cbd_congestion_fee: float
     total_amount: float
+class UserCreate(BaseModel):
+    username: str
+    password: str

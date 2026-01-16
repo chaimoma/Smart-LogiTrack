@@ -1,13 +1,13 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends,HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from datetime import datetime
 import joblib
 import pandas as pd
 from .database import engine, get_db, Base
-from .models import ETAPrediction
-from .schemas import TripInput
-from .auth import verify_token, create_token
+from .models import ETAPrediction,User
+from .schemas import TripInput, UserCreate
+from .auth import verify_token, create_token,verify_password,hash_password
 Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Smart LogiTrack ETA API")
 
@@ -15,13 +15,29 @@ app = FastAPI(title="Smart LogiTrack ETA API")
 model = joblib.load("models/taxi_duration_model.pkl")
 MODEL_VERSION = "v1"
 
-# token endpoint
-@app.get("/token")
-def get_token():
-    token = create_token()
-    return {"token": token}
-
 # endpoints 
+# register user
+@app.post("/register")
+def register(user: UserCreate, db: Session = Depends(get_db)):
+    existing_user = db.query(User).filter(User.username == user.username).first()
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Username already exists")
+    hashed_pw = hash_password(user.password)
+    new_user = User(username=user.username, hashed_password=hashed_pw)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return {"message": "User registered successfully", "user_id": new_user.id}
+
+# login user
+@app.post("/login")
+def login(user: UserCreate, db: Session = Depends(get_db)):
+    db_user = db.query(User).filter(User.username == user.username).first()
+    if not db_user or not verify_password(user.password, db_user.hashed_password):
+        raise HTTPException(status_code=401, detail="Invalid username or password")
+    token = create_token()
+    return {"access_token": token, "token_type": "bearer"}
+
 @app.post("/predict")
 def predict(trip: TripInput, token: str = Depends(verify_token), db: Session = Depends(get_db)):
     df = pd.DataFrame([trip.model_dump()])
