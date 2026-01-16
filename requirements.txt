@@ -1,6 +1,7 @@
 # Airflow DB
 psycopg2-binary
 Spark
+bcrypt==3.2.2
 pandas
 numpy
 scikit-learn
@@ -13,3 +14,5 @@ fastapi
 uvicorn
 seaborn
 matplotlib
+passlib
+python-jose[cryptography] 
