@@ -43,6 +43,8 @@ services:
       - ./plugins:/opt/airflow/plugins
       - ./requirements.txt:/requirements.txt  
       - ./data:/opt/airflow/data   
+      - ./scripts:/opt/airflow/scripts
+      - ./models:/opt/airflow/models
     command: >
       bash -c "
         pip install --no-cache-dir -r /requirements.txt &&
