@@ -4,9 +4,9 @@ import os
 from sklearn.ensemble import RandomForestRegressor
 
 #paths
-SILVER_DATA_PATH = "/opt/airflow/data/silver_taxi_data"
-MODEL_SAVE_PATH = "/opt/airflow/models/taxi_duration_model.pkl"
-
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SILVER_DATA_PATH = os.path.join(BASE_DIR, "data", "silver_taxi_data")
+MODEL_SAVE_PATH = os.path.join(BASE_DIR, "models", "taxi_duration_model.pkl")
 # making sure of the path existence
 os.makedirs(os.path.dirname(MODEL_SAVE_PATH), exist_ok=True)
 
